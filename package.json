@@ -1,23 +1,26 @@
 {
-  "name": "chessclock",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@types/node": "20.5.3",
-    "@types/react": "18.2.21",
-    "@types/react-dom": "18.2.7",
-    "next": "13.4.19",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "typescript": "5.1.6"
-  },
-  "devDependencies": {
-    "rome": "12.1.3"
-  }
+	"name": "chessclock",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint",
+		"rome:check": "npx rome check . --apply",
+		"rome:lint": "npx rome format . --write",
+		"parse": "npm run rome:lint && npm run rome:check"
+	},
+	"dependencies": {
+		"@types/node": "20.5.3",
+		"@types/react": "18.2.21",
+		"@types/react-dom": "18.2.7",
+		"next": "13.4.19",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
+		"typescript": "5.1.6"
+	},
+	"devDependencies": {
+		"rome": "12.1.3"
+	}
 }

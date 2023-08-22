@@ -1,6 +1,5 @@
 {
     "editor.wordWrap": "on",
-    "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
         "source.fixAll": true
     },
@@ -15,5 +14,9 @@
     "[json]": {
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "rome.rome"
+    },
+    "[typescriptreact]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "rome.rome",
     },
 }
