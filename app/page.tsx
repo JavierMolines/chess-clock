@@ -11,11 +11,12 @@ export default function Home() {
 	const velocity = 1000;
 	const standard = {
 		second: 0,
-		minute: 5,
+		minute: 10,
 		hour: 0,
 	};
 
-	const [turn, setTurn] = useState(false);
+	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
+	const [turn, setTurn] = useState<any>(null);
 	const [gameOn, setGameOn] = useState(false);
 	const [ownerTime, setOwnerTime] = useState<ClockProps>(standard);
 	const [inviteTime, setInviteTime] = useState<ClockProps>(standard);
@@ -95,10 +96,10 @@ export default function Home() {
 		if (!gameOn) {
 			setGameOn(true);
 		}
-		const initTurn = flow !== "OWNER";
-		setTurn(initTurn);
-		reduceTimer(!turn, true);
-		const nameButton = turn ? "buttonAudioOne" : "buttonAudioTwo";
+		const initTurn = flow === "OWNER";
+		setTurn(!initTurn);
+		reduceTimer(!initTurn, true);
+		const nameButton = !initTurn ? "buttonAudioOne" : "buttonAudioTwo";
 		// rome-ignore lint/suspicious/noExplicitAny: <explanation>
 		const media: any = document.getElementById(nameButton);
 		media.play();
@@ -119,6 +120,7 @@ export default function Home() {
 	return (
 		<main className="main">
 			<ComboNumbers
+				disabled={gameOn && turn === false}
 				onClick={() => handleTurn("OWNER")}
 				textInverse
 				{...ownerTime}
@@ -127,12 +129,16 @@ export default function Home() {
 			<UploadsSounds />
 
 			<section>
-				<button type="button">
+				<button disabled type="button">
 					<IconPlay />
 				</button>
 			</section>
 
-			<ComboNumbers onClick={() => handleTurn("VISIT")} {...inviteTime} />
+			<ComboNumbers
+				disabled={gameOn && turn === true}
+				onClick={() => handleTurn("VISIT")}
+				{...inviteTime}
+			/>
 		</main>
 	);
 }

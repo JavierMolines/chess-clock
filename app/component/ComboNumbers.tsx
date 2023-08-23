@@ -6,6 +6,7 @@ export const ComboNumbers = ({
 	minute,
 	textInverse,
 	onClick,
+	disabled,
 }: IComboNumbers) => {
 	const format = (value: number) => {
 		return String(value).padStart(2, "0");
@@ -17,6 +18,7 @@ export const ComboNumbers = ({
 
 	return (
 		<button
+			disabled={disabled}
 			onClick={onClick}
 			type="button"
 			style={customStyles}

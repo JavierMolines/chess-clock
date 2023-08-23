@@ -9,4 +9,5 @@ export interface ClockProps {
 export interface IComboNumbers extends ClockProps {
 	onClick: MouseEventHandler;
 	textInverse?: boolean;
+	disabled: boolean;
 }
