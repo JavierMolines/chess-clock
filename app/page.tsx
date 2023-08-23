@@ -1,95 +1,138 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+
+import "./styles/page.css";
+import { useEffect, useState } from "react";
+import { IconPlay } from "./component/IconPlay";
+import { ComboNumbers } from "./component/ComboNumbers";
+import { ClockProps } from "./types/types";
+import { UploadsSounds } from "./component/UploadSounds";
 
 export default function Home() {
+	const velocity = 1000;
+	const standard = {
+		second: 0,
+		minute: 5,
+		hour: 0,
+	};
+
+	const [turn, setTurn] = useState(false);
+	const [gameOn, setGameOn] = useState(false);
+	const [ownerTime, setOwnerTime] = useState<ClockProps>(standard);
+	const [inviteTime, setInviteTime] = useState<ClockProps>(standard);
+
+	const reduceTimer = (currentPlayer: boolean, initGame: boolean) => {
+		if (initGame === false && gameOn === false) return;
+
+		const assignNewTime = currentPlayer ? setOwnerTime : setInviteTime;
+		const { second, minute, hour } = currentPlayer ? ownerTime : inviteTime;
+		const newSecond = second - 1;
+		const newMinute = minute - 1;
+		const newHour = hour - 1;
+
+		// HAVE SECONDS
+		if (newSecond > 0) {
+			assignNewTime({
+				hour,
+				minute,
+				second: newSecond,
+			});
+			return;
+		}
+
+		// HAVE MINUTES
+		if (minute > 0) {
+			assignNewTime({
+				hour,
+				minute: newMinute,
+				second: 59,
+			});
+			return;
+		}
+
+		// HAVE HOURS
+		if (hour > 0) {
+			assignNewTime({
+				hour: newHour,
+				minute: 59,
+				second: 59,
+			});
+			return;
+		}
+
+		// END CLOCK
+		if (newSecond <= 0 && newMinute <= 0 && newHour <= 0) {
+			setGameOn(false);
+			assignNewTime({
+				hour: 0,
+				minute: 0,
+				second: 0,
+			});
+			return;
+		}
+
+		// NOT HAVE SECONDS BUT HAVE MINUTES
+		if (newSecond <= 0 && newMinute > 0) {
+			assignNewTime({
+				hour,
+				minute: newMinute,
+				second: 59,
+			});
+			return;
+		}
+
+		// NOT HAVE SECONDS AND NOT HAVE MINUTES BUT HAVE HOURS
+		if (newSecond <= 0 && newMinute <= 0 && newHour > 0) {
+			assignNewTime({
+				hour: newHour,
+				minute: 59,
+				second: 59,
+			});
+			return;
+		}
+	};
+
+	const handleTurn = (flow: "OWNER" | "VISIT") => {
+		if (!gameOn) {
+			setGameOn(true);
+		}
+		const initTurn = flow !== "OWNER";
+		setTurn(initTurn);
+		reduceTimer(!turn, true);
+		const nameButton = turn ? "buttonAudioOne" : "buttonAudioTwo";
+		// rome-ignore lint/suspicious/noExplicitAny: <explanation>
+		const media: any = document.getElementById(nameButton);
+		media.play();
+	};
+
+	useEffect(() => {
+		if (gameOn) {
+			const idTimer = setTimeout(() => {
+				reduceTimer(turn, false);
+			}, velocity);
+
+			return () => {
+				clearTimeout(idTimer);
+			};
+		}
+	}, [ownerTime, inviteTime]);
+
 	return (
-		<main className={styles.main}>
-			<div className={styles.description}>
-				<p>
-					Get started by editing&nbsp;
-					<code className={styles.code}>app/page.tsx</code>
-				</p>
-				<div>
-					<a
-						href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						By{" "}
-						<Image
-							src="/vercel.svg"
-							alt="Vercel Logo"
-							className={styles.vercelLogo}
-							width={100}
-							height={24}
-							priority
-						/>
-					</a>
-				</div>
-			</div>
+		<main className="main">
+			<ComboNumbers
+				onClick={() => handleTurn("OWNER")}
+				textInverse
+				{...ownerTime}
+			/>
 
-			<div className={styles.center}>
-				<Image
-					className={styles.logo}
-					src="/next.svg"
-					alt="Next.js Logo"
-					width={180}
-					height={37}
-					priority
-				/>
-			</div>
+			<UploadsSounds />
 
-			<div className={styles.grid}>
-				<a
-					href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-					className={styles.card}
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<h2>
-						Docs <span>-&gt;</span>
-					</h2>
-					<p>Find in-depth information about Next.js features and API.</p>
-				</a>
+			<section>
+				<button type="button">
+					<IconPlay />
+				</button>
+			</section>
 
-				<a
-					href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-					className={styles.card}
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<h2>
-						Learn <span>-&gt;</span>
-					</h2>
-					<p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-				</a>
-
-				<a
-					href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-					className={styles.card}
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<h2>
-						Templates <span>-&gt;</span>
-					</h2>
-					<p>Explore the Next.js 13 playground.</p>
-				</a>
-
-				<a
-					href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-					className={styles.card}
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<h2>
-						Deploy <span>-&gt;</span>
-					</h2>
-					<p>
-						Instantly deploy your Next.js site to a shareable URL with Vercel.
-					</p>
-				</a>
-			</div>
+			<ComboNumbers onClick={() => handleTurn("VISIT")} {...inviteTime} />
 		</main>
 	);
 }
