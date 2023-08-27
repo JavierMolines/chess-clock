@@ -1,21 +1,18 @@
 import { useEffect, useState } from "react";
+import { useClockStore } from "@/app/store/gameStore";
 
 const useMovement = () => {
 	const velocity = 1000;
-	const standard = {
-		second: 0,
-		minute: 10,
-		hour: 0,
-	};
 
 	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const [turn, setTurn] = useState<any>(null);
-	const [gameOn, setGameOn] = useState(false);
-	const [ownerTime, setOwnerTime] = useState(standard);
-	const [inviteTime, setInviteTime] = useState(standard);
+	const { gameRunning, timeRunning, timeToPlay, stateConfig } = useClockStore();
+	const [ownerTime, setOwnerTime] = useState(timeToPlay);
+	const [inviteTime, setInviteTime] = useState(timeToPlay);
 
-	const reduceTimer = (currentPlayer: boolean, initGame: boolean) => {
-		if (initGame === false && gameOn === false) return;
+	const reduceTimer = (currentPlayer: boolean) => {
+		const isValidTime = gameRunning && timeRunning;
+		if (!isValidTime) return;
 
 		const assignNewTime = currentPlayer ? setOwnerTime : setInviteTime;
 		const { second, minute, hour } = currentPlayer ? ownerTime : inviteTime;
@@ -55,7 +52,10 @@ const useMovement = () => {
 
 		// END CLOCK
 		if (newSecond <= 0 && newMinute <= 0 && newHour <= 0) {
-			setGameOn(false);
+			stateConfig({
+				timeGame: false,
+				timeRunning: false,
+			});
 			assignNewTime({
 				hour: 0,
 				minute: 0,
@@ -85,29 +85,59 @@ const useMovement = () => {
 		}
 	};
 
+	const handlerGameFlow = () => {
+		if (!gameRunning) return;
+		stateConfig({
+			timeRunning: !timeRunning,
+		});
+	};
+
+	const resetGame = () => {
+		stateConfig({
+			timeGame: false,
+			timeRunning: false,
+		});
+		setTurn(null);
+		setOwnerTime(timeToPlay);
+		setInviteTime(timeToPlay);
+	};
+
 	const handleTurn = (flow: "OWNER" | "VISIT") => {
-		if (!gameOn) {
-			setGameOn(true);
+		if (!gameRunning) {
+			stateConfig({
+				timeGame: true,
+				timeRunning: true,
+			});
 		}
 		const initTurn = flow === "OWNER";
 		setTurn(!initTurn);
-		reduceTimer(!initTurn, true);
 		window.navigator.vibrate(100);
 	};
 
 	useEffect(() => {
-		if (gameOn) {
-			const idTimer = setTimeout(() => {
-				reduceTimer(turn, false);
-			}, velocity);
-
+		if (gameRunning) {
+			const idTimer = setTimeout(() => reduceTimer(turn), velocity);
 			return () => {
 				clearTimeout(idTimer);
 			};
 		}
-	}, [ownerTime, inviteTime]);
+	}, [ownerTime, inviteTime, turn, timeRunning]);
 
-	return { gameOn, turn, ownerTime, inviteTime, handleTurn };
+	useEffect(() => {
+		const data = localStorage.getItem("timeGame");
+		console.log(data);
+	}, []);
+
+	return {
+		gameRunning,
+		turn,
+		ownerTime,
+		inviteTime,
+		timeRunning,
+		handleTurn,
+		handlerGameFlow,
+		resetGame,
+	};
 };
 
 export { useMovement };

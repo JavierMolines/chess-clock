@@ -5,27 +5,46 @@ import { ComboNumbers } from "./component/ComboNumbers";
 import { useMovement } from "./hooks/useMovement";
 import { IconStop } from "./component/Icons/Stop";
 import { IconPlay } from "./component/Icons/Play";
-import { IconSettings } from "./component/Icons/Settings";
+import { IconClock } from "./component/Icons/Clock";
+import { IconBack } from "./component/Icons/Back";
 
 export default function Home() {
-	const { gameOn, ownerTime, inviteTime, turn, handleTurn } = useMovement();
+	const {
+		gameRunning,
+		timeRunning,
+		ownerTime,
+		inviteTime,
+		turn,
+		handleTurn,
+		handlerGameFlow,
+		resetGame,
+	} = useMovement();
+
+	const statusButtonOwner = gameRunning && turn === false;
+	const statusButtonVisit = gameRunning && turn === true;
+	const handlerIconStatus = timeRunning === false;
 
 	return (
 		<main className="main">
 			<ComboNumbers
-				disabled={gameOn && turn === false}
+				disabled={statusButtonOwner}
 				onClick={() => handleTurn("OWNER")}
 				textInverse
 				{...ownerTime}
 			/>
 
 			<section>
-				{gameOn ? <IconPlay /> : <IconStop />}
-				<IconSettings />
+				<IconBack action={resetGame} />
+				<IconClock action={() => alert("COMING SOON")} />
+				{handlerIconStatus ? (
+					<IconPlay action={handlerGameFlow} />
+				) : (
+					<IconStop action={handlerGameFlow} />
+				)}
 			</section>
 
 			<ComboNumbers
-				disabled={gameOn && turn === true}
+				disabled={statusButtonVisit}
 				onClick={() => handleTurn("VISIT")}
 				{...inviteTime}
 			/>
