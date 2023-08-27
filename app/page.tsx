@@ -5,7 +5,8 @@ import { ComboNumbers } from "./component/ComboNumbers";
 import { useMovement } from "./hooks/useMovement";
 import { IconStop } from "./component/Icons/Stop";
 import { IconPlay } from "./component/Icons/Play";
-import { IconSettings } from "./component/Icons/Settings";
+import { IconClock } from "./component/Icons/Clock";
+import { IconBack } from "./component/Icons/Back";
 
 export default function Home() {
 	const { gameOn, ownerTime, inviteTime, turn, handleTurn } = useMovement();
@@ -20,8 +21,9 @@ export default function Home() {
 			/>
 
 			<section>
-				{gameOn ? <IconPlay /> : <IconStop />}
-				<IconSettings />
+				<IconBack />
+				<IconClock />
+				{gameOn ? <IconStop /> : <IconPlay />}
 			</section>
 
 			<ComboNumbers

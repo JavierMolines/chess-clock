@@ -16,6 +16,16 @@ export const ComboNumbers = ({
 		transform: textInverse ? "rotate(180deg)" : "rotate(0deg)",
 	};
 
+	const SeparatorNumbers = () => (
+		<span
+			style={{
+				marginBottom: "4px",
+			}}
+		>
+			:
+		</span>
+	);
+
 	return (
 		<button
 			disabled={disabled}
@@ -25,9 +35,9 @@ export const ComboNumbers = ({
 			className="clockItems"
 		>
 			<span>{format(hour)}</span>
-			<span>:</span>
+			<SeparatorNumbers />
 			<span>{format(minute)}</span>
-			<span>:</span>
+			<SeparatorNumbers />
 			<span>{format(second)}</span>
 		</button>
 	);
