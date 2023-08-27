@@ -98,7 +98,13 @@ const useMovement = () => {
 	};
 
 	const resetGame = () => {
-		console.log("RESET");
+		stateConfig({
+			timeGame: false,
+			timeRunning: false,
+		});
+		setTurn(null);
+		setOwnerTime(standard);
+		setInviteTime(standard);
 	};
 
 	const handlerTimeClock = () => {
