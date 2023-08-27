@@ -11,11 +11,12 @@ const useMovement = () => {
 	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const [turn, setTurn] = useState<any>(null);
 	const [gameOn, setGameOn] = useState(false);
+	const [gameStop, setGameStop] = useState(false);
 	const [ownerTime, setOwnerTime] = useState(standard);
 	const [inviteTime, setInviteTime] = useState(standard);
 
 	const reduceTimer = (currentPlayer: boolean, initGame: boolean) => {
-		if (initGame === false && gameOn === false) return;
+		if (gameStop || (initGame === false && gameOn === false)) return;
 
 		const assignNewTime = currentPlayer ? setOwnerTime : setInviteTime;
 		const { second, minute, hour } = currentPlayer ? ownerTime : inviteTime;
@@ -91,8 +92,25 @@ const useMovement = () => {
 		}
 		const initTurn = flow === "OWNER";
 		setTurn(!initTurn);
-		reduceTimer(!initTurn, true);
 		window.navigator.vibrate(100);
+	};
+
+	const handlerGameFlow = () => {
+		if (gameStop === false) {
+			setGameStop(true);
+			return;
+		}
+
+		setGameStop(false);
+	};
+
+	const resetGame = () => {
+		if (!gameStop || gameOn) return;
+
+		setGameOn(false);
+		setGameStop(false);
+		setOwnerTime(standard);
+		setInviteTime(standard);
 	};
 
 	useEffect(() => {
@@ -105,9 +123,18 @@ const useMovement = () => {
 				clearTimeout(idTimer);
 			};
 		}
-	}, [ownerTime, inviteTime]);
+	}, [ownerTime, inviteTime, turn, gameStop]);
 
-	return { gameOn, turn, ownerTime, inviteTime, handleTurn };
+	return {
+		gameOn,
+		turn,
+		ownerTime,
+		inviteTime,
+		gameStop,
+		handleTurn,
+		handlerGameFlow,
+		resetGame,
+	};
 };
 
 export { useMovement };
