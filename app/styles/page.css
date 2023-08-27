@@ -22,10 +22,6 @@
     }
 }
 
-.clockItems:hover {
-    background-color: #b3b3b3;
-}
-
 section {
     display: flex;
     flex-direction: row;
