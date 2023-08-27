@@ -1,9 +1,16 @@
 import { create } from "zustand";
 
+interface IGameStore {
+	second: number;
+	minute: number;
+	hour: number;
+}
+
 interface IClockStore {
 	gameRunning: boolean;
 	timeRunning: boolean;
 	stateConfig: Function;
+	timeToPlay: IGameStore;
 }
 
 interface IConfigGame {
@@ -29,4 +36,10 @@ export const useClockStore = create<IClockStore>((set) => ({
 
 		console.log("NO");
 	},
+	timeToPlay: {
+		hour: 0,
+		minute: 15,
+		second: 0,
+	},
+	stageTime: (info: IGameStore) => set({ timeToPlay: info }),
 }));

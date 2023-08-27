@@ -3,17 +3,12 @@ import { useClockStore } from "@/app/store/gameStore";
 
 const useMovement = () => {
 	const velocity = 1000;
-	const standard = {
-		second: 0,
-		minute: 5,
-		hour: 0,
-	};
 
 	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const [turn, setTurn] = useState<any>(null);
-	const [ownerTime, setOwnerTime] = useState(standard);
-	const [inviteTime, setInviteTime] = useState(standard);
-	const { gameRunning, timeRunning, stateConfig } = useClockStore();
+	const { gameRunning, timeRunning, timeToPlay, stateConfig } = useClockStore();
+	const [ownerTime, setOwnerTime] = useState(timeToPlay);
+	const [inviteTime, setInviteTime] = useState(timeToPlay);
 
 	const reduceTimer = (currentPlayer: boolean) => {
 		const isValidTime = gameRunning && timeRunning;
@@ -103,12 +98,8 @@ const useMovement = () => {
 			timeRunning: false,
 		});
 		setTurn(null);
-		setOwnerTime(standard);
-		setInviteTime(standard);
-	};
-
-	const handlerTimeClock = () => {
-		console.log("TIME CLOCK");
+		setOwnerTime(timeToPlay);
+		setInviteTime(timeToPlay);
 	};
 
 	const handleTurn = (flow: "OWNER" | "VISIT") => {
@@ -132,6 +123,11 @@ const useMovement = () => {
 		}
 	}, [ownerTime, inviteTime, turn, timeRunning]);
 
+	useEffect(() => {
+		const data = localStorage.getItem("timeGame");
+		console.log(data);
+	}, []);
+
 	return {
 		gameRunning,
 		turn,
@@ -141,7 +137,6 @@ const useMovement = () => {
 		handleTurn,
 		handlerGameFlow,
 		resetGame,
-		handlerTimeClock,
 	};
 };
 

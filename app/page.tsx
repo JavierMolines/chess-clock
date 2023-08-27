@@ -18,7 +18,6 @@ export default function Home() {
 		handleTurn,
 		handlerGameFlow,
 		resetGame,
-		handlerTimeClock,
 	} = useMovement();
 
 	const statusButtonOwner = gameRunning && turn === false;
@@ -36,7 +35,7 @@ export default function Home() {
 
 			<section>
 				<IconBack action={resetGame} />
-				<IconClock action={handlerTimeClock} />
+				<IconClock action={() => alert("COMING SOON")} />
 				{handlerIconStatus ? (
 					<IconPlay action={handlerGameFlow} />
 				) : (
