@@ -9,25 +9,42 @@ import { IconClock } from "./component/Icons/Clock";
 import { IconBack } from "./component/Icons/Back";
 
 export default function Home() {
-	const { gameOn, ownerTime, inviteTime, turn, handleTurn } = useMovement();
+	const {
+		gameOn,
+		gameStop,
+		ownerTime,
+		inviteTime,
+		turn,
+		handleTurn,
+		handlerGameFlow,
+		resetGame,
+	} = useMovement();
+
+	const statusButtonOwner = gameStop || (gameOn && turn === false);
+	const statusButtonVisit = gameStop || (gameOn && turn === true);
+	const handlerIconStatus = gameStop ? false : gameOn;
 
 	return (
 		<main className="main">
 			<ComboNumbers
-				disabled={gameOn && turn === false}
+				disabled={statusButtonOwner}
 				onClick={() => handleTurn("OWNER")}
 				textInverse
 				{...ownerTime}
 			/>
 
 			<section>
-				<IconBack />
+				<IconBack action={resetGame} />
 				<IconClock />
-				{gameOn ? <IconStop /> : <IconPlay />}
+				{handlerIconStatus ? (
+					<IconStop action={handlerGameFlow} />
+				) : (
+					<IconPlay action={handlerGameFlow} />
+				)}
 			</section>
 
 			<ComboNumbers
-				disabled={gameOn && turn === true}
+				disabled={statusButtonVisit}
 				onClick={() => handleTurn("VISIT")}
 				{...inviteTime}
 			/>

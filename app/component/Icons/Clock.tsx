@@ -1,6 +1,7 @@
 import { Icon } from "./Base/Icon";
+import { IIconsChild } from "@/app/types/types";
 
-export const IconClock = () => {
+export const IconClock = ({ action, enabledIcon }: IIconsChild) => {
 	return (
 		<Icon
 			action={() => console.log("CLOCK")}

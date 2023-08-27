@@ -1,26 +1,35 @@
-import { configIcon } from "./settings";
+import { IIcon } from "@/app/types/types";
 
-interface IIcon {
-	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
-	moreAttributes?: any;
-	action?: Function;
-	children: React.ReactNode;
-}
+export const Icon = ({
+	action,
+	moreAttributes,
+	children,
+	enabledIcon = true,
+}: IIcon) => {
+	const isActive = enabledIcon ? "#000000" : "#999966";
 
-export const Icon = ({ action, moreAttributes, children }: IIcon) => {
 	return (
-		// rome-ignore lint/a11y/noSvgWithoutTitle: <explanation>
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			width={configIcon.width}
-			height={configIcon.height}
-			fill={configIcon.fill}
-			stroke={configIcon.stroke}
-			strokeWidth={configIcon.strokeWidth}
-			onClick={action}
-			{...moreAttributes}
+		<button
+			disabled={!enabledIcon}
+			type="button"
+			style={{
+				border: "none",
+				background: "none",
+			}}
 		>
-			{children}
-		</svg>
+			{/* rome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="48"
+				height="48"
+				fill="none"
+				stroke={isActive}
+				strokeWidth="2"
+				onClick={action}
+				{...moreAttributes}
+			>
+				{children}
+			</svg>
+		</button>
 	);
 };

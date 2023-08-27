@@ -1,5 +1,16 @@
 import { MouseEventHandler } from "react";
 
+export interface IIconsChild {
+	action?: Function;
+	enabledIcon?: boolean;
+}
+
+export interface IIcon extends IIconsChild {
+	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
+	moreAttributes?: any;
+	children: React.ReactNode;
+}
+
 export interface ClockProps {
 	hour: number;
 	second: number;
