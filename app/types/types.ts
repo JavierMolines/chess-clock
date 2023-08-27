@@ -1,8 +1,8 @@
 import { MouseEventHandler } from "react";
 
 export interface IIconsChild {
+	name?: "play" | "stop" | "reset" | "clock";
 	action?: Function;
-	enabledIcon?: boolean;
 }
 
 export interface IIcon extends IIconsChild {

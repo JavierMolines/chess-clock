@@ -1,22 +1,23 @@
 import { useEffect, useState } from "react";
+import { useClockStore } from "@/app/store/gameStore";
 
 const useMovement = () => {
 	const velocity = 1000;
 	const standard = {
 		second: 0,
-		minute: 10,
+		minute: 5,
 		hour: 0,
 	};
 
 	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const [turn, setTurn] = useState<any>(null);
-	const [gameOn, setGameOn] = useState(false);
-	const [gameStop, setGameStop] = useState(false);
 	const [ownerTime, setOwnerTime] = useState(standard);
 	const [inviteTime, setInviteTime] = useState(standard);
+	const { gameRunning, timeRunning, stateConfig } = useClockStore();
 
-	const reduceTimer = (currentPlayer: boolean, initGame: boolean) => {
-		if (gameStop || (initGame === false && gameOn === false)) return;
+	const reduceTimer = (currentPlayer: boolean) => {
+		const isValidTime = gameRunning && timeRunning;
+		if (!isValidTime) return;
 
 		const assignNewTime = currentPlayer ? setOwnerTime : setInviteTime;
 		const { second, minute, hour } = currentPlayer ? ownerTime : inviteTime;
@@ -56,7 +57,10 @@ const useMovement = () => {
 
 		// END CLOCK
 		if (newSecond <= 0 && newMinute <= 0 && newHour <= 0) {
-			setGameOn(false);
+			stateConfig({
+				timeGame: false,
+				timeRunning: false,
+			});
 			assignNewTime({
 				hour: 0,
 				minute: 0,
@@ -86,54 +90,52 @@ const useMovement = () => {
 		}
 	};
 
+	const handlerGameFlow = () => {
+		if (!gameRunning) return;
+		stateConfig({
+			timeRunning: !timeRunning,
+		});
+	};
+
+	const resetGame = () => {
+		console.log("RESET");
+	};
+
+	const handlerTimeClock = () => {
+		console.log("TIME CLOCK");
+	};
+
 	const handleTurn = (flow: "OWNER" | "VISIT") => {
-		if (!gameOn) {
-			setGameOn(true);
+		if (!gameRunning) {
+			stateConfig({
+				timeGame: true,
+				timeRunning: true,
+			});
 		}
 		const initTurn = flow === "OWNER";
 		setTurn(!initTurn);
 		window.navigator.vibrate(100);
 	};
 
-	const handlerGameFlow = () => {
-		if (gameStop === false) {
-			setGameStop(true);
-			return;
-		}
-
-		setGameStop(false);
-	};
-
-	const resetGame = () => {
-		if (!gameStop || gameOn) return;
-
-		setGameOn(false);
-		setGameStop(false);
-		setOwnerTime(standard);
-		setInviteTime(standard);
-	};
-
 	useEffect(() => {
-		if (gameOn) {
-			const idTimer = setTimeout(() => {
-				reduceTimer(turn, false);
-			}, velocity);
-
+		if (gameRunning) {
+			const idTimer = setTimeout(() => reduceTimer(turn), velocity);
 			return () => {
 				clearTimeout(idTimer);
 			};
 		}
-	}, [ownerTime, inviteTime, turn, gameStop]);
+	}, [ownerTime, inviteTime, turn, timeRunning]);
 
 	return {
-		gameOn,
+		gameRunning,
 		turn,
 		ownerTime,
 		inviteTime,
-		gameStop,
+		timeRunning,
 		handleTurn,
 		handlerGameFlow,
 		resetGame,
+		handlerTimeClock,
 	};
 };
 

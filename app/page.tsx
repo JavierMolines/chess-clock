@@ -10,19 +10,20 @@ import { IconBack } from "./component/Icons/Back";
 
 export default function Home() {
 	const {
-		gameOn,
-		gameStop,
+		gameRunning,
+		timeRunning,
 		ownerTime,
 		inviteTime,
 		turn,
 		handleTurn,
 		handlerGameFlow,
 		resetGame,
+		handlerTimeClock,
 	} = useMovement();
 
-	const statusButtonOwner = gameStop || (gameOn && turn === false);
-	const statusButtonVisit = gameStop || (gameOn && turn === true);
-	const handlerIconStatus = gameStop ? false : gameOn;
+	const statusButtonOwner = gameRunning && turn === false;
+	const statusButtonVisit = gameRunning && turn === true;
+	const handlerIconStatus = timeRunning === false;
 
 	return (
 		<main className="main">
@@ -35,11 +36,11 @@ export default function Home() {
 
 			<section>
 				<IconBack action={resetGame} />
-				<IconClock />
+				<IconClock action={handlerTimeClock} />
 				{handlerIconStatus ? (
-					<IconStop action={handlerGameFlow} />
-				) : (
 					<IconPlay action={handlerGameFlow} />
+				) : (
+					<IconStop action={handlerGameFlow} />
 				)}
 			</section>
 

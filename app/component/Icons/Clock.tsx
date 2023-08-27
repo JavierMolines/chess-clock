@@ -1,10 +1,11 @@
 import { Icon } from "./Base/Icon";
 import { IIconsChild } from "@/app/types/types";
 
-export const IconClock = ({ action, enabledIcon }: IIconsChild) => {
+export const IconClock = ({ action }: IIconsChild) => {
 	return (
 		<Icon
-			action={() => console.log("CLOCK")}
+			name="clock"
+			action={action}
 			moreAttributes={{
 				viewBox: "0 0 24 24",
 			}}

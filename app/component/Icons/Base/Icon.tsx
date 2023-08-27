@@ -1,16 +1,26 @@
+import { useClockStore } from "@/app/store/gameStore";
 import { IIcon } from "@/app/types/types";
 
 export const Icon = ({
 	action,
 	moreAttributes,
 	children,
-	enabledIcon = true,
+	name = "clock",
 }: IIcon) => {
-	const isActive = enabledIcon ? "#000000" : "#999966";
+	const { gameRunning, timeRunning } = useClockStore();
+	const mapping = {
+		play: gameRunning && !timeRunning,
+		stop: gameRunning && timeRunning,
+		reset: gameRunning && !timeRunning,
+		clock: !gameRunning && !timeRunning,
+	};
+
+	const isActive = mapping[name];
+	const colorIcon = isActive ? "#000000" : "#999966";
 
 	return (
 		<button
-			disabled={!enabledIcon}
+			disabled={!isActive}
 			type="button"
 			style={{
 				border: "none",
@@ -23,7 +33,7 @@ export const Icon = ({
 				width="48"
 				height="48"
 				fill="none"
-				stroke={isActive}
+				stroke={colorIcon}
 				strokeWidth="2"
 				onClick={action}
 				{...moreAttributes}

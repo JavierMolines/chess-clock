@@ -1,9 +1,10 @@
 import { Icon } from "./Base/Icon";
 import { IIconsChild } from "@/app/types/types";
 
-export const IconStop = ({ action, enabledIcon }: IIconsChild) => {
+export const IconStop = ({ action }: IIconsChild) => {
 	return (
 		<Icon
+			name="stop"
 			action={action}
 			moreAttributes={{
 				viewBox: "0 0 24 24",
