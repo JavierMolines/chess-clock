@@ -124,9 +124,9 @@ const useMovement = () => {
 	}, [ownerTime, inviteTime, turn, timeRunning]);
 
 	useEffect(() => {
-		const data = localStorage.getItem("timeGame");
-		console.log(data);
-	}, []);
+		setOwnerTime(timeToPlay);
+		setInviteTime(timeToPlay);
+	}, [timeToPlay]);
 
 	return {
 		gameRunning,

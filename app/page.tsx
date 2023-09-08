@@ -7,6 +7,8 @@ import { IconStop } from "./component/Icons/Stop";
 import { IconPlay } from "./component/Icons/Play";
 import { IconClock } from "./component/Icons/Clock";
 import { IconBack } from "./component/Icons/Back";
+import { ModalSelection } from "./component/ModalSelection";
+import { useState } from "react";
 
 export default function Home() {
 	const {
@@ -20,6 +22,11 @@ export default function Home() {
 		resetGame,
 	} = useMovement();
 
+	// MODAL
+	const [showModal, setShowModal] = useState(false);
+	const handlerStatusModal = () => setShowModal(!showModal);
+
+	// CONDITIONAL RENDERING
 	const statusButtonOwner = gameRunning && turn === false;
 	const statusButtonVisit = gameRunning && turn === true;
 	const handlerIconStatus = timeRunning === false;
@@ -35,7 +42,7 @@ export default function Home() {
 
 			<section>
 				<IconBack action={resetGame} />
-				<IconClock action={() => alert("COMING SOON")} />
+				<IconClock action={handlerStatusModal} />
 				{handlerIconStatus ? (
 					<IconPlay action={handlerGameFlow} />
 				) : (
@@ -48,6 +55,8 @@ export default function Home() {
 				onClick={() => handleTurn("VISIT")}
 				{...inviteTime}
 			/>
+
+			{showModal && <ModalSelection callback={handlerStatusModal} />}
 		</main>
 	);
 }
