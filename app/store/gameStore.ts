@@ -7,10 +7,11 @@ interface IGameStore {
 }
 
 interface IClockStore {
+	timeToPlay: IGameStore;
 	gameRunning: boolean;
 	timeRunning: boolean;
 	stateConfig: Function;
-	timeToPlay: IGameStore;
+	stageTime: Function;
 }
 
 interface IConfigGame {
@@ -33,8 +34,6 @@ export const useClockStore = create<IClockStore>((set) => ({
 		if (info.timeGame !== undefined) {
 			return set({ gameRunning: info.timeGame });
 		}
-
-		console.log("NO");
 	},
 	timeToPlay: {
 		hour: 0,

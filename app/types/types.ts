@@ -22,3 +22,7 @@ export interface IComboNumbers extends ClockProps {
 	textInverse?: boolean;
 	disabled: boolean;
 }
+
+export interface IModelSelect {
+	callback: Function;
+}
