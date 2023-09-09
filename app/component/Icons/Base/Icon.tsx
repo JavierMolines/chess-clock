@@ -7,12 +7,12 @@ export const Icon = ({
 	children,
 	name = "clock",
 }: IIcon) => {
-	const { gameRunning, timeRunning } = useClockStore();
+	const { gameRunning, timeRunning, endGame } = useClockStore();
 	const mapping = {
-		play: gameRunning && !timeRunning,
-		stop: gameRunning && timeRunning,
-		reset: gameRunning && !timeRunning,
-		clock: !gameRunning && !timeRunning,
+		play: endGame ? false : gameRunning && !timeRunning,
+		stop: endGame ? false : gameRunning && timeRunning,
+		reset: endGame ? true : gameRunning && !timeRunning,
+		clock: endGame ? false : !gameRunning && !timeRunning,
 	};
 
 	const isActive = mapping[name];

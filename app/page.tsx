@@ -17,6 +17,7 @@ export default function Home() {
 		ownerTime,
 		inviteTime,
 		turn,
+		endGame,
 		handleTurn,
 		handlerGameFlow,
 		resetGame,
@@ -27,8 +28,8 @@ export default function Home() {
 	const handlerStatusModal = () => setShowModal(!showModal);
 
 	// CONDITIONAL RENDERING
-	const statusButtonOwner = gameRunning && turn === false;
-	const statusButtonVisit = gameRunning && turn === true;
+	const statusButtonOwner = endGame ? true : gameRunning && turn === false;
+	const statusButtonVisit = endGame ? true : gameRunning && turn === true;
 	const handlerIconStatus = timeRunning === false;
 
 	return (
