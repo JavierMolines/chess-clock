@@ -6,7 +6,14 @@ const useMovement = () => {
 
 	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const [turn, setTurn] = useState<any>(null);
-	const { gameRunning, timeRunning, timeToPlay, stateConfig } = useClockStore();
+	const {
+		gameRunning,
+		timeRunning,
+		timeToPlay,
+		setConfig,
+		endGame,
+		setEndGame,
+	} = useClockStore();
 	const [ownerTime, setOwnerTime] = useState(timeToPlay);
 	const [inviteTime, setInviteTime] = useState(timeToPlay);
 
@@ -52,7 +59,7 @@ const useMovement = () => {
 
 		// END CLOCK
 		if (newSecond <= 0 && newMinute <= 0 && newHour <= 0) {
-			stateConfig({
+			setConfig({
 				timeGame: false,
 				timeRunning: false,
 			});
@@ -61,6 +68,8 @@ const useMovement = () => {
 				minute: 0,
 				second: 0,
 			});
+			setEndGame(true);
+			window.navigator.vibrate(2000);
 			return;
 		}
 
@@ -87,24 +96,25 @@ const useMovement = () => {
 
 	const handlerGameFlow = () => {
 		if (!gameRunning) return;
-		stateConfig({
+		setConfig({
 			timeRunning: !timeRunning,
 		});
 	};
 
 	const resetGame = () => {
-		stateConfig({
+		setConfig({
 			timeGame: false,
 			timeRunning: false,
 		});
 		setTurn(null);
+		setEndGame(false);
 		setOwnerTime(timeToPlay);
 		setInviteTime(timeToPlay);
 	};
 
 	const handleTurn = (flow: "OWNER" | "VISIT") => {
 		if (!gameRunning) {
-			stateConfig({
+			setConfig({
 				timeGame: true,
 				timeRunning: true,
 			});
@@ -134,6 +144,7 @@ const useMovement = () => {
 		ownerTime,
 		inviteTime,
 		timeRunning,
+		endGame,
 		handleTurn,
 		handlerGameFlow,
 		resetGame,
