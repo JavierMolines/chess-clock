@@ -1,6 +1,6 @@
-import "./index.css";
-import { IModelSelect } from "@/app/types/types";
 import { useClockStore } from "@/app/store/gameStore";
+import { IModelSelect } from "@/app/types/types";
+import "./index.css";
 
 export const ModalSelection = ({ callback }: IModelSelect) => {
 	const times = [1, 3, 5, 10, 15, 30];

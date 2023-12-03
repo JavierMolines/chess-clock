@@ -1,14 +1,14 @@
 "use client";
 
-import "./styles/page.css";
-import { ComboNumbers } from "./component/ComboNumbers";
-import { useMovement } from "./hooks/useMovement";
-import { IconStop } from "./component/Icons/Stop";
-import { IconPlay } from "./component/Icons/Play";
-import { IconClock } from "./component/Icons/Clock";
-import { IconBack } from "./component/Icons/Back";
-import { ModalSelection } from "./component/ModalSelection";
 import { useState } from "react";
+import { ComboNumbers } from "./component/ComboNumbers";
+import { IconBack } from "./component/Icons/Back";
+import { IconClock } from "./component/Icons/Clock";
+import { IconPlay } from "./component/Icons/Play";
+import { IconStop } from "./component/Icons/Stop";
+import { ModalSelection } from "./component/ModalSelection";
+import { useMovement } from "./hooks/useMovement";
+import "./styles/page.css";
 
 export default function Home() {
 	const {

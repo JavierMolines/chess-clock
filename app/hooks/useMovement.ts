@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
 import { useClockStore } from "@/app/store/gameStore";
+import { useEffect, useState } from "react";
 
 const useMovement = () => {
 	const velocity = 1000;
 
-	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const [turn, setTurn] = useState<any>(null);
 	const {
 		gameRunning,
