@@ -6,7 +6,6 @@ export interface IIconsChild {
 }
 
 export interface IIcon extends IIconsChild {
-	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
 	moreAttributes?: any;
 	children: React.ReactNode;
 }

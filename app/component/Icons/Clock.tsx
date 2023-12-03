@@ -1,5 +1,5 @@
-import { Icon } from "./Base/Icon";
 import { IIconsChild } from "@/app/types/types";
+import { Icon } from "./Base/Icon";
 
 export const IconClock = ({ action }: IIconsChild) => {
 	return (
