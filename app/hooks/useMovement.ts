@@ -1,10 +1,8 @@
 import { useClockStore } from "@/app/store/gameStore";
 import { useEffect, useState } from "react";
+import { getTimingPlay } from "../utils/storage";
 
 const useMovement = () => {
-	const velocity = 1000;
-
-	const [turn, setTurn] = useState<any>(null);
 	const {
 		gameRunning,
 		timeRunning,
@@ -12,7 +10,11 @@ const useMovement = () => {
 		setConfig,
 		endGame,
 		setEndGame,
+		setTime,
 	} = useClockStore();
+
+	const velocity = 1000;
+	const [turn, setTurn] = useState<any>(null);
 	const [ownerTime, setOwnerTime] = useState(timeToPlay);
 	const [inviteTime, setInviteTime] = useState(timeToPlay);
 
@@ -122,6 +124,13 @@ const useMovement = () => {
 		setTurn(!initTurn);
 		window.navigator.vibrate(100);
 	};
+
+	useEffect(() => {
+		try {
+			const storageTiming = JSON.parse(getTimingPlay());
+			setTime(storageTiming);
+		} catch {}
+	}, []);
 
 	useEffect(() => {
 		if (gameRunning) {

@@ -1,5 +1,6 @@
 import { useClockStore } from "@/app/store/gameStore";
 import { IModelSelect } from "@/app/types/types";
+import { setTimingPlay } from "@/app/utils/storage";
 import "./index.css";
 
 export const ModalSelection = ({ callback }: IModelSelect) => {
@@ -7,7 +8,9 @@ export const ModalSelection = ({ callback }: IModelSelect) => {
 	const { timeToPlay, setTime } = useClockStore();
 
 	const handlerSelectTime = (time: number) => {
-		setTime({ ...timeToPlay, minute: time });
+		const newTimeGame = { ...timeToPlay, minute: time };
+		setTime(newTimeGame);
+		setTimingPlay(newTimeGame);
 		callback();
 	};
 
