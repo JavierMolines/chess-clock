@@ -17,6 +17,10 @@ export const ModalSelection = ({ callback }: IModelSelect) => {
 	return (
 		<section className="modalSelection flex">
 			<main className="cardOptions flex spacesPadding">
+				<button onClick={() => callback()} type="button">
+					<img className="closeIcon" src="/close.svg" alt="not found" />
+				</button>
+
 				<h2>Select time to play</h2>
 				<div className="flex spacesPadding maxWidth">
 					{times.map((time) => (
