@@ -25,9 +25,11 @@
 }
 
 .cardOptions {
+    position: relative;
     width: 80%;
     background-color: white;
     align-items: center;
+    border-radius: 30px;
 }
 
 .buttonOptionSelect {
@@ -40,4 +42,12 @@
 
 .optionSelectTime {
     color: rgb(173, 1, 1);
+}
+
+.closeIcon {
+    cursor: pointer;
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    width: 30px;
 }
