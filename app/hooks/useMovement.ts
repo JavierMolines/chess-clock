@@ -13,7 +13,7 @@ const useMovement = () => {
 		setTime,
 	} = useClockStore();
 
-	const velocity = 1000;
+	const velocity = 100;
 	const [turn, setTurn] = useState<any>(null);
 	const [ownerTime, setOwnerTime] = useState(timeToPlay);
 	const [inviteTime, setInviteTime] = useState(timeToPlay);
@@ -23,17 +23,33 @@ const useMovement = () => {
 		if (!isValidTime) return;
 
 		const assignNewTime = currentPlayer ? setOwnerTime : setInviteTime;
-		const { second, minute, hour } = currentPlayer ? ownerTime : inviteTime;
+		const { milSecond, second, minute, hour } = currentPlayer
+			? ownerTime
+			: inviteTime;
+
+		const newMilSecond = milSecond - 100;
 		const newSecond = second - 1;
 		const newMinute = minute - 1;
 		const newHour = hour - 1;
 
+		// HAVE MILSECOND
+		if (newMilSecond > 0) {
+			assignNewTime({
+				hour,
+				minute,
+				second,
+				milSecond: newMilSecond,
+			});
+			return;
+		}
+
 		// HAVE SECONDS
-		if (newSecond > 0) {
+		if (newSecond >= 0) {
 			assignNewTime({
 				hour,
 				minute,
 				second: newSecond,
+				milSecond: 1000,
 			});
 			return;
 		}
@@ -44,6 +60,7 @@ const useMovement = () => {
 				hour,
 				minute: newMinute,
 				second: 59,
+				milSecond: 1000,
 			});
 			return;
 		}
@@ -54,6 +71,7 @@ const useMovement = () => {
 				hour: newHour,
 				minute: 59,
 				second: 59,
+				milSecond: 1000,
 			});
 			return;
 		}
@@ -68,6 +86,7 @@ const useMovement = () => {
 				hour: 0,
 				minute: 0,
 				second: 0,
+				milSecond: 0,
 			});
 			setEndGame(true);
 			window.navigator.vibrate(2000);
@@ -80,6 +99,7 @@ const useMovement = () => {
 				hour,
 				minute: newMinute,
 				second: 59,
+				milSecond: 1000,
 			});
 			return;
 		}
@@ -90,6 +110,7 @@ const useMovement = () => {
 				hour: newHour,
 				minute: 59,
 				second: 59,
+				milSecond: 1000,
 			});
 			return;
 		}
