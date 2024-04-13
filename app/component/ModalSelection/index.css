@@ -5,6 +5,7 @@
     position: fixed;
 
     & h2 {
+        margin-top: 2rem;
         font-size: 2.5rem;
     }
 }
@@ -26,10 +27,14 @@
 
 .cardOptions {
     position: relative;
-    width: 80%;
+    width: 90%;
     background-color: white;
     align-items: center;
     border-radius: 30px;
+
+    @media (min-width: 1366px) {
+        width: 50%;
+    }
 }
 
 .buttonOptionSelect {
