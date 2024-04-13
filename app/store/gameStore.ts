@@ -4,6 +4,7 @@ interface IGameStore {
 	second: number;
 	minute: number;
 	hour: number;
+	milSecond: number;
 }
 
 interface IClockStore {
@@ -29,6 +30,7 @@ export const useClockStore = create<IClockStore>((set) => ({
 		hour: 0,
 		minute: 15,
 		second: 0,
+		milSecond: 0,
 	},
 	setConfig: (info: IConfigGame) => {
 		if (info.timeGame !== undefined && info.timeRunning !== undefined) {
