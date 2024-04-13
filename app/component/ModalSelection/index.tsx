@@ -1,5 +1,5 @@
 import { useClockStore } from "@/app/store/gameStore";
-import { IModelSelect } from "@/app/types/types";
+import type { IModelSelect } from "@/app/types/types";
 import { setTimingPlay } from "@/app/utils/storage";
 import "./index.css";
 
