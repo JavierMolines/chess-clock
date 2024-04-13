@@ -20,10 +20,5 @@
 		"editor.formatOnSave": true,
 		"editor.defaultFormatter": "biomejs.biome"
 	},
-	"cSpell.words": [
-		"biomejs",
-		"chessclock",
-		"MILSECOND",
-		"zustand"
-	]
+	"cSpell.words": ["biomejs", "chessclock", "MILSECOND", "zustand"]
 }

@@ -1,5 +1,5 @@
 import { useClockStore } from "@/app/store/gameStore";
-import { IIcon } from "@/app/types/types";
+import type { IIcon } from "@/app/types/types";
 
 export const Icon = ({
 	action,
