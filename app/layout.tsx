@@ -1,6 +1,11 @@
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
+import { Inconsolata } from "next/font/google";
 import "./styles/globals.css";
+
+const font = Inconsolata({
+	subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
 	title: "Chess Clock Online",
@@ -14,7 +19,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<body>
+			<body className={font.className}>
 				{children}
 				<Analytics />
 			</body>
