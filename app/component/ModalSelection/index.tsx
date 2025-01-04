@@ -7,8 +7,10 @@ import { TIMES_MODAL_SELECTION } from "./data";
 export const ModalSelection = ({ callback }: IModelSelect) => {
 	const { timeToPlay, setTime } = useClockStore();
 
-	const isSelectedRow = (time: number) =>
-		`buttonOptionSelect ${time === timeToPlay.minute ? "optionSelectTime" : ""}`;
+	const isSelectedRow = (time: number, unit: string) => {
+		const timeCurrent = unit === "min" ? timeToPlay.minute : timeToPlay.hour;
+		return time === timeCurrent ? "optionSelectTime" : "";
+	};
 
 	const handlerSelectTime = (time: number, unit: "min" | "hour") => {
 		const isHour = unit === "hour";
@@ -35,7 +37,7 @@ export const ModalSelection = ({ callback }: IModelSelect) => {
 				<div className="flex spacesPadding maxWidth">
 					{TIMES_MODAL_SELECTION.map(({ unit, number }) => (
 						<button
-							className={isSelectedRow(number)}
+							className={`buttonOptionSelect ${isSelectedRow(number, unit)}`}
 							onClick={() => handlerSelectTime(number, unit as "min" | "hour")}
 							type="button"
 							key={`${number}-${unit}`}
