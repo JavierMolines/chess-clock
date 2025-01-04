@@ -14,7 +14,7 @@ const useMovement = () => {
 	} = useClockStore();
 
 	const velocity = 100;
-	const [turn, setTurn] = useState<any>(null);
+	const [turn, setTurn] = useState<boolean | null>(null);
 	const [ownerTime, setOwnerTime] = useState(timeToPlay);
 	const [inviteTime, setInviteTime] = useState(timeToPlay);
 
@@ -146,6 +146,7 @@ const useMovement = () => {
 		window.navigator.vibrate(100);
 	};
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		try {
 			const storageTiming = JSON.parse(getTimingPlay());
@@ -153,8 +154,9 @@ const useMovement = () => {
 		} catch {}
 	}, []);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		if (gameRunning) {
+		if (gameRunning && turn !== null) {
 			const idTimer = setTimeout(() => reduceTimer(turn), velocity);
 			return () => {
 				clearTimeout(idTimer);

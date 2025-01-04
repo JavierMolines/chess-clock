@@ -1,4 +1,4 @@
-import type { IComboNumbers } from "@/app/types/types";
+import type { IComboNumbers } from "@/app/types/general.type";
 
 export const ComboNumbers = ({
 	second,

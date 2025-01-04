@@ -1,26 +1,9 @@
 import { create } from "zustand";
-
-interface IGameStore {
-	second: number;
-	minute: number;
-	hour: number;
-	milSecond: number;
-}
-
-interface IClockStore {
-	timeToPlay: IGameStore;
-	endGame: boolean;
-	gameRunning: boolean;
-	timeRunning: boolean;
-	setConfig: Function;
-	setTime: Function;
-	setEndGame: Function;
-}
-
-interface IConfigGame {
-	timeGame?: boolean;
-	timeRunning?: boolean;
-}
+import type {
+	IClockStore,
+	IConfigGame,
+	IGameStore,
+} from "../types/gameStore.type";
 
 export const useClockStore = create<IClockStore>((set) => ({
 	gameRunning: false,

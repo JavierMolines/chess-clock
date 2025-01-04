@@ -2,11 +2,11 @@ import type { MouseEventHandler } from "react";
 
 export interface IIconsChild {
 	name?: "play" | "stop" | "reset" | "clock";
-	action?: Function;
+	action?: () => void;
 }
 
 export interface IIcon extends IIconsChild {
-	moreAttributes?: any;
+	moreAttributes: React.SVGAttributes<SVGSVGElement>;
 	children: React.ReactNode;
 }
 
@@ -23,5 +23,5 @@ export interface IComboNumbers extends ClockProps {
 }
 
 export interface IModelSelect {
-	callback: Function;
+	callback: () => void;
 }

@@ -1,6 +1,6 @@
 const ID_TIME_PLAY = "timeToPlay";
 
-const setTimingPlay = (time: any) => {
+const setTimingPlay = (time) => {
 	localStorage.setItem(ID_TIME_PLAY, JSON.stringify(time));
 };
 

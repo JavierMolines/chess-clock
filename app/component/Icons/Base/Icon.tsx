@@ -1,5 +1,5 @@
 import { useClockStore } from "@/app/store/gameStore";
-import type { IIcon } from "@/app/types/types";
+import type { IIcon } from "@/app/types/general.type";
 
 export const Icon = ({
 	action,
@@ -28,6 +28,8 @@ export const Icon = ({
 			}}
 		>
 			<svg
+				role="img"
+				aria-label="custom-icon"
 				xmlns="http://www.w3.org/2000/svg"
 				width="48"
 				height="48"
