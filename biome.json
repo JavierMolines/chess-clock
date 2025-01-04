@@ -6,22 +6,10 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true,
-			"complexity": {
-				"noBannedTypes": "off"
-			},
-			"suspicious": {
-				"noExplicitAny": "off"
-			},
-			"a11y": {
-				"noSvgWithoutTitle": "off"
-			},
-			"correctness": {
-				"useExhaustiveDependencies": "off"
-			}
+			"recommended": true
 		}
 	},
 	"files": {
-		"ignore": ["./build/*.js", "./build/*.ts", "./.next/*.js", "./.next/*.ts"]
+		"ignore": ["./build/**", "./.next/**"]
 	}
 }

@@ -1,58 +1,71 @@
 .modalSelection {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	position: fixed;
 
-    & h2 {
-        margin-top: 2rem;
-        font-size: 2.5rem;
-    }
+	& h2 {
+		margin-top: 2rem;
+		font-size: 1.5rem;
+
+		@media (min-width: 1366px) {
+			margin-top: 0rem;
+			font-size: 2.5rem;
+		}
+	}
 }
 
 .spacesPadding {
-    padding: 2rem 1.5rem;
+	padding: 1rem 2rem;
+
+	@media (min-width: 1366px) {
+		padding: 2rem 1.5rem;
+	}
 }
 
 .flex {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
 }
 
 .maxWidth {
-    width: 100%;
+	width: 100%;
 }
 
 .cardOptions {
-    position: relative;
-    width: 90%;
-    background-color: white;
-    align-items: center;
-    border-radius: 30px;
+	position: relative;
+	width: 90%;
+	background-color: white;
+	align-items: center;
+	border-radius: 20px;
 
-    @media (min-width: 1366px) {
-        width: 50%;
-    }
+	@media (min-width: 1366px) {
+		width: 50%;
+	}
 }
 
 .buttonOptionSelect {
-    width: 100%;
-    height: 100%;
-    padding: 1rem 0.5rem;
-    cursor: pointer;
-    font-size: 1.5rem;
+	width: 100%;
+	height: 100%;
+	padding: 1rem 0.5rem;
+	cursor: pointer;
+	font-size: 1.5rem;
 }
 
 .optionSelectTime {
-    color: rgb(173, 1, 1);
+	color: rgb(173, 1, 1);
 }
 
 .closeIcon {
-    cursor: pointer;
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
-    width: 30px;
+	cursor: pointer;
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	width: 30px;
+
+	@media (min-width: 1366px) {
+		top: 2rem;
+	}
 }

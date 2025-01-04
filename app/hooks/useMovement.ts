@@ -14,7 +14,7 @@ const useMovement = () => {
 	} = useClockStore();
 
 	const velocity = 100;
-	const [turn, setTurn] = useState<any>(null);
+	const [turn, setTurn] = useState<boolean | null>(null);
 	const [ownerTime, setOwnerTime] = useState(timeToPlay);
 	const [inviteTime, setInviteTime] = useState(timeToPlay);
 
@@ -31,6 +31,23 @@ const useMovement = () => {
 		const newSecond = second - 1;
 		const newMinute = minute - 1;
 		const newHour = hour - 1;
+
+		// END CLOCK
+		if (newSecond < 0 && newMinute < 0 && newHour < 0) {
+			setConfig({
+				timeGame: false,
+				timeRunning: false,
+			});
+			assignNewTime({
+				hour: 0,
+				minute: 0,
+				second: 0,
+				milSecond: 0,
+			});
+			setEndGame(true);
+			window.navigator.vibrate(2000);
+			return;
+		}
 
 		// HAVE MILSECOND
 		if (newMilSecond > 0) {
@@ -73,23 +90,6 @@ const useMovement = () => {
 				second: 59,
 				milSecond: 1000,
 			});
-			return;
-		}
-
-		// END CLOCK
-		if (newSecond <= 0 && newMinute <= 0 && newHour <= 0) {
-			setConfig({
-				timeGame: false,
-				timeRunning: false,
-			});
-			assignNewTime({
-				hour: 0,
-				minute: 0,
-				second: 0,
-				milSecond: 0,
-			});
-			setEndGame(true);
-			window.navigator.vibrate(2000);
 			return;
 		}
 
@@ -146,6 +146,7 @@ const useMovement = () => {
 		window.navigator.vibrate(100);
 	};
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		try {
 			const storageTiming = JSON.parse(getTimingPlay());
@@ -153,8 +154,9 @@ const useMovement = () => {
 		} catch {}
 	}, []);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		if (gameRunning) {
+		if (gameRunning && turn !== null) {
 			const idTimer = setTimeout(() => reduceTimer(turn), velocity);
 			return () => {
 				clearTimeout(idTimer);

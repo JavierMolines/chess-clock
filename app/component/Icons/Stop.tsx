@@ -1,4 +1,4 @@
-import type { IIconsChild } from "@/app/types/types";
+import type { IIconsChild } from "@/app/types/general.type";
 import { Icon } from "./Base/Icon";
 
 export const IconStop = ({ action }: IIconsChild) => {

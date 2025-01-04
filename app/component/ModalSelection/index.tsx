@@ -1,14 +1,26 @@
 import { useClockStore } from "@/app/store/gameStore";
-import type { IModelSelect } from "@/app/types/types";
+import type { IModelSelect } from "@/app/types/general.type";
 import { setTimingPlay } from "@/app/utils/storage";
 import "./index.css";
+import { TIMES_MODAL_SELECTION } from "./data";
 
 export const ModalSelection = ({ callback }: IModelSelect) => {
-	const times = [1, 3, 5, 10, 15, 30];
 	const { timeToPlay, setTime } = useClockStore();
 
-	const handlerSelectTime = (time: number) => {
-		const newTimeGame = { ...timeToPlay, minute: time };
+	const isSelectedRow = (time: number, unit: string) => {
+		const timeCurrent = unit === "min" ? timeToPlay.minute : timeToPlay.hour;
+		return time === timeCurrent ? "optionSelectTime" : "";
+	};
+
+	const handlerSelectTime = (time: number, unit: "min" | "hour") => {
+		const isHour = unit === "hour";
+		const handlerTime = {
+			minute: isHour ? 0 : time,
+			hour: isHour ? time : 0,
+		};
+
+		const newTimeGame = { ...timeToPlay, ...handlerTime };
+
 		setTime(newTimeGame);
 		setTimingPlay(newTimeGame);
 		callback();
@@ -23,16 +35,14 @@ export const ModalSelection = ({ callback }: IModelSelect) => {
 
 				<h2>Select time to play</h2>
 				<div className="flex spacesPadding maxWidth">
-					{times.map((time) => (
+					{TIMES_MODAL_SELECTION.map(({ unit, number }) => (
 						<button
-							className={`buttonOptionSelect ${
-								time === timeToPlay.minute ? "optionSelectTime" : ""
-							}`}
-							onClick={() => handlerSelectTime(time)}
+							className={`buttonOptionSelect ${isSelectedRow(number, unit)}`}
+							onClick={() => handlerSelectTime(number, unit as "min" | "hour")}
 							type="button"
-							key={time}
+							key={`${number}-${unit}`}
 						>
-							{time} min
+							{`${number} ${unit}`}
 						</button>
 					))}
 				</div>
