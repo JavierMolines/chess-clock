@@ -32,6 +32,23 @@ const useMovement = () => {
 		const newMinute = minute - 1;
 		const newHour = hour - 1;
 
+		// END CLOCK
+		if (newSecond < 0 && newMinute < 0 && newHour < 0) {
+			setConfig({
+				timeGame: false,
+				timeRunning: false,
+			});
+			assignNewTime({
+				hour: 0,
+				minute: 0,
+				second: 0,
+				milSecond: 0,
+			});
+			setEndGame(true);
+			window.navigator.vibrate(2000);
+			return;
+		}
+
 		// HAVE MILSECOND
 		if (newMilSecond > 0) {
 			assignNewTime({
@@ -73,23 +90,6 @@ const useMovement = () => {
 				second: 59,
 				milSecond: 1000,
 			});
-			return;
-		}
-
-		// END CLOCK
-		if (newSecond <= 0 && newMinute <= 0 && newHour <= 0) {
-			setConfig({
-				timeGame: false,
-				timeRunning: false,
-			});
-			assignNewTime({
-				hour: 0,
-				minute: 0,
-				second: 0,
-				milSecond: 0,
-			});
-			setEndGame(true);
-			window.navigator.vibrate(2000);
 			return;
 		}
 
